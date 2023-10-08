@@ -1,14 +1,15 @@
 ---
-title: "ソースを更新できませんでした: wingetについて" # 記事のタイトル
+title: "解決済み: ソースを更新できませんでした - winget" # 記事のタイトル
 emoji: "📝" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
-topics: ["winget"] # タグ。["markdown", "rust", "aws"]のように指定する
+topics: ["winget", "解決済み"] # タグ。["markdown", "rust", "aws"]のように指定する
 published: true # 公開設定（falseにすると下書き）
 published_at: 2023-10-05 # 過去・未来の日時を指定する
 ---
 
 # 現在の状況
 2023年10月5日1時10分現在，stable release での解決は見られず．
+2023年10月9日1時19分現在，stable release v1.6.2771 で解決済み
 
 ---
 
@@ -28,3 +29,4 @@ v1.6.2721 (Latest of stable release)
 * Pre-release版のLatest(1.7.2722)であれば改善する可能性がある（未検証）
 * ```winget source reset winget``` を実行すれば改善する場合がある
 → 検証したが，改善されなかった．また，当然だがリセットされるので直すのが面倒
+（メモ: ```winget source add winget https://cdn.winget.microsoft.com/cache``` で追加）
