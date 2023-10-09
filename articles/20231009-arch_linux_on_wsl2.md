@@ -3,8 +3,8 @@ title: "WSL2のディストリを非公式だがArchLinuxにする方法" # 記�
 emoji: "🐧" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["wsl", "wsl2", "archlinux", "arch"] # タグ。["markdown", "rust", "aws"]のように指定する
-published: false # 公開設定（falseにすると下書き）
-#published_at: 2023-10-09 21:50 # 過去・未来の日時を指定する
+published: true # 公開設定（falseにすると下書き）
+published_at: 2023-10-09 22:00 # 過去・未来の日時を指定する
 ---
 
 # 要約
@@ -20,7 +20,7 @@ WSL2のディストリビューションを非公式だがArchLinuxにしたい�
 # 手順
 ## ArchLinuxの準備 in wsl
 * wslではなくpwshでも可能だと思われる（未検証）
-~~~ wsl
+~~~sh:wsl
 docker run -it --name foo archlinux
 ~~~
 ## ユーザー作成 in arch on docker
@@ -30,7 +30,7 @@ userName というユーザーを作成する場合の例
 * ユーザー作成時にパスワードを設定するので標準入力が必要
 * pacmanでインストール時の yes/no を尋ねるようにするには ```--noconfirm``` オプションを外す
 * sed ではなく ```EDITOR=vim visudo``` でも可能（寧ろ そちらの方が一般的）
-~~~ arch on docker
+~~~sh:arch on docker
 useradd -m -G wheel userName
 passwd userName
 pacman -Syu --noconfirm
@@ -43,14 +43,14 @@ userName というユーザーを作成する場合の例
 :::
 * wslで実行したときに，ログインするデフォルトユーザー名を変更する
 * こちらも任意のエディタで編集しても同じ結果が得られる（未検証）
-~~~ arch on docker
+~~~sh:arch on docker
 cat << EOF > /etc/wsl.conf
 [user]
 default=userName
 EOF
 ~~~
 * 全部終わったので docker から exit する
-~~~ arch on docker
+~~~sh:arch on docker
 exit
 ~~~
 ## エクスポート in wsl
@@ -58,7 +58,7 @@ exit
 :::message
 Cドライブ直下にarchディレクトリを作成し，そのディレクトリ内に ArchLinux のデータを保存する場合の例
 :::
-~~~ wsl
+~~~sh:wsl
 mkdir /mnt/c/arch
 docker export foo > /mnt/c/arch/ArchLinuxImage.tar
 ~~~
@@ -68,7 +68,7 @@ docker export foo > /mnt/c/arch/ArchLinuxImage.tar
 　C:\arch ディレクトリ直下に ext4.vhdx というファイルにデータを保存する場合の例
 :::
 * 相対パスで指定も可能
-~~~ powershell
+~~~sh:powershell
 wsl --import Arch C:\arch C:\arch\ArchLinuxImage.tar
 wsl -d Arch
 ~~~
@@ -97,7 +97,7 @@ wsl -d Arch
 * WindowsTerminalの 設定 → プロファイル
 * JSONで追加する方向けに例を記述しておく
 * guid は [こちら](https://hogehoge.tk/guid/) などで作成できるはず
-~~~
+~~~json
 {
     "guid": "{a5a97cb8-8961-5535-816d-772efe0c6a3f}",
     "hidden": false,
@@ -111,11 +111,11 @@ wsl -d Arch
 # 削除方法
 　削除方法も記しておく．ブックマークなど保存しておくと良いかも？
 ## ディストリビューション一覧
-~~~
+~~~sh
 wsl -l
 ~~~
 ## 削除
-~~~
+~~~sh
 wsl --unregister ディストリビューション名
 ~~~
 
