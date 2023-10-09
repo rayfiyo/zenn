@@ -1,12 +1,11 @@
 ---
-title: "WSL2のディストリをArchLinuxにした" # 記事のタイトル
+title: "WSL2のディストリを非公式だがArchLinuxにする方法" # 記事のタイトル
 emoji: "🐧" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["wsl", "wsl2", "archlinux", "arch"] # タグ。["markdown", "rust", "aws"]のように指定する
 published: false # 公開設定（falseにすると下書き）
-published_at: 2023-10-09 18:00 # 過去・未来の日時を指定する
+# published_at: 2023-10-09 18:00 # 過去・未来の日時を指定する
 ---
-
 
 # 要約
 WSL2のディストリビューションを非公式だがArchLinuxにしたい！
