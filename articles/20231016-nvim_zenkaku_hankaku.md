@@ -1,9 +1,9 @@
 ---
-title: "nvimで:wq！みたいな全角つかいたい" # 記事のタイトル
+title: "nvimで:wq！みたいな全角を使いたい" # 記事のタイトル
 emoji: "📝" # 1文字
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["nvim", "neovim"] # ["markdown", "rust", "aws"]のように５つまで
-published: ture # falseで下書き
+published: true # falseで下書き
 published_at: 2023-10-16 13:00 # 過去・未来の日時
 
 # https://zenn.dev/zenn/articles/zenn-cli-guide
