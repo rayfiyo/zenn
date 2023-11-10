@@ -107,6 +107,26 @@ wsl -d Arch
 }
 ~~~
 
+# wslの設定の変更
+```/etc/wsl.conf``` の設定を自分用に付け足す（以下が完成形）
+~~~sh:/etc/wsl.conf
+# https://learn.microsoft.com/en-us/windows/wsl/wsl-config#configure-global-options-with-wslconfig
+
+# Sets the directory where fixed drives will be automatically mounted. This example changes the mount location, so your C-drive would be /c, rather than the default /mnt/c.
+root = /
+
+# Network host settings that enable the DNS server used by WSL 2. This example changes the hostname, sets generateHosts to false, preventing WSL from the default behavior of auto-generating /etc/hosts, and sets generateResolvConf to false, preventing WSL from auto-generating /etc/resolv.conf, so that you can create your own (ie. nameserver 1.1.1.1).
+[network]
+generateResolvConf = true
+# generateResolvConf = true
+
+[user]
+default = ray
+
+[boot]
+systemd = true
+~~~
+
 
 # 削除方法
 　削除方法も記しておく．ブックマークなど保存しておくと良いかも？
