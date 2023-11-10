@@ -1,5 +1,5 @@
 ---
-title: "fishshellのセットアップメモ" # 記事のタイトル
+title: "archにfishshellをneovimを使ってセットアップする" # 記事のタイトル
 emoji: "🐟" # 1文字
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["fish", "shell", "fishshell", "setup"] # ["markdown", "rust", "aws"]のように５つまで
@@ -11,6 +11,7 @@ published_at: 2023-11-10 12:00 # 過去・未来の日時
 ---
 # 概要
 ほぼ自分用に fish shell のセットアップ（on ArchLinux）を記述した．
+configの設定を書くのに**neovimのインストール**もしている
 TL;DR → [まとめ](#まとめ) にコードを全部記述
 
 # インストール
@@ -51,6 +52,7 @@ curl -s https://ohmyposh.dev/install.sh | sudo bash -s
 
 # FUSE2のインストール
 * neovimのAppImageの展開に用いる
+* **neovim使わないならいらない**
 * [こちら](https://github.com/neovim/neovim/releases/tag/stable#:~:text=macos/bin/nvim-,Linux%20(x64),-AppImage)の通り，```--appimage-extract```オプションでも展開はできるがディレクトリが生成されて気に食わない
 * メモ: オプション無しでは，https://github.com/AppImage/AppImageKit/wiki/FUSE のリンクがエラーメッセージとして表示されるが，FUSEDのインストール方法ではない
 * 最終的に，[AppImages require FUSE to run _ archlinux](https://www.reddit.com/r/archlinux/comments/owy6g8/appimages_require_fuse_to_run/?rdt=50842)を参考にした
@@ -59,6 +61,7 @@ sudo pacman -S fuse2
 ~~~
 
 # neovimのインストール
+* neovim使わないならいらない
 ~~~
 curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
 chmod u+x nvim.appimage
@@ -94,7 +97,6 @@ sudo pacman -S fuse2
 curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
 chmod u+x nvim.appimage
 mv nvim.appimage /usr/bin/nvim
-~~~
 ~~~
 
 # 環境
