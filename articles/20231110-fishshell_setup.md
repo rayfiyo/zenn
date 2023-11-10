@@ -72,8 +72,8 @@ mv nvim.appimage /usr/bin/nvim
 curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim-linux64.tar.gz.sha256sum
 ~~~
 
-# .config/fish/config.fish
-* 自分のプライベートリポジトリに保存してあるファイルを用いる
+# ~/.config/fish/config.fish
+* 自分のプライベートリポジトリに保存してあるファイルを用いた
 
 # まとめ
 ~~~sh
@@ -92,11 +92,15 @@ fisher install jethrokuan/z
 sudo pacman -S unzip
 curl -s https://ohmyposh.dev/install.sh | sudo bash -s
 
+# 以下 neovim のインストール
+
 sudo pacman -S fuse2
 
 curl -LO https://github.com/neovim/neovim/releases/download/stable/nvim.appimage
 chmod u+x nvim.appimage
 mv nvim.appimage /usr/bin/nvim
+
+echo "~/.config/fish/config.fish の編集をしてください！！"
 ~~~
 
 # 環境
