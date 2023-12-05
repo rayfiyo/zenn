@@ -2,44 +2,44 @@
 title: "WSLで外のネットワークにアクセスできないときの解決策" # 記事のタイトル
 emoji: "💡" # 1文字
 type: "tech" # tech: 技術記事 / idea: アイデア記事
-topics: ["WSL", "WSL2", "network"] # ["markdown", "rust", "aws"]のように５つまで
-published: false # falseで下書き
-# published_at: 2023-12-06 21:00 # 過去・未来の日時
+topics: ["WSL", "WSL2", "トラブルシューティング"] # ["markdown", "rust", "aws"]のように５つまで
+published: true # falseで下書き
+published_at: 2023-12-06 18:00 # 過去・未来の日時
 
 # https://zenn.dev/zenn/articles/zenn-cli-guide
 # https://zenn.dev/zenn/articles/markdown-guide
 ---
 # 概要
-* 「WSLがインターネットに繋がらない」という曖昧なものを分割し，解決した．
+* 「 WSL がインターネットに繋がらない」という曖昧なものを分割し，解決した．
 * この記事でも解決できない可能性を考慮し，問題解決に有効だと考えられる情報を[最後にまとめた](#解決できないとき用の記事)．
 
 # 背景
-私はよくWSL2を利用している^[zennに公開している記事からもわかる]おり，幾度かネットワーク関係が不調になったことがある，
+私はよく WSL2 を利用している^[ zenn に公開している記事からもわかる]おり，幾度かネットワーク関係が不調になったことがある，
 しかし，これらの記事は少ないように思える．^[私の検索能力が不十分である可能性は否めない]そこで，解決策をまとめることにした．
 
 # 対象読者
-* WSL2利用者
+* WSL2 利用者
 * 未来の自分
 -----
 # 本論
 各問題解決に関する文献は，この記事の最後にまとめて述べている．
-また，以降でWSLと表記したときはWSL2に限定し，WindowsはWindows11を想定する．
+また，以降で WSL と表記したときは WSL2 に限定し，Windows は Windows11 を想定する．
 さらに，再起動などは全て試行済みだとする．
 ## 命名解決に失敗している場合
 この場合は，よく見られるもので，原因の解決が簡単かつ情報も豊富である．
-外部へアクセスすることはできるが，命名解決に（DNS関係で）失敗している．
-本記事では，WSL側で問題が起きている（Windows側は問題ない）場合の解決策を以下の述べる．
+外部へアクセスすることはできるが，命名解決に（DNS 関係で）失敗している．
+本記事では，WSL側 で問題が起きている（Windows側 は問題ない）場合の解決策を以下の述べる．
 ### この場合の特徴
-この場合は，WSLで以下を実行すると，上のコマンドは失敗するが，下のコマンドは成功する という結果が得られる．
+この場合は，WSL で以下を実行すると，上のコマンドは失敗するが，下のコマンドは成功する という結果が得られる．
 ~~~sh:wsl
 ping google.com
 ping 8.8.8.8
 ~~~
-PowerShellでも同じコマンドを実行したとき，両行が成功する場合は，WSL側の問題である．
-そうではない場合は，WSLではなくWindows側の問題である．
+PowerShell でも同じコマンドを実行したとき，両行が成功する場合は，WSL側 の問題である．
+そうではない場合は，WSL ではなく Windows側 の問題である．
 ### 原因
 通常 DNSサーバー名を記述したファイルは自動で生成される．
-しかし，何らかの理由^[Wi-Fiを普段とは異なるものを使用したり，Dockerが悪さをしたりなどが考えられる]によりうまく動作していない場合がある．
+しかし，何らかの理由^[Wi-Fi を普段とは異なるものを使用したり，Docker が悪さをしたりなどが考えられる]によりうまく動作していない場合がある．
 今回は これが原因だと考え，手動でバインドすることで解決を図る策を次に述べる．
 （その為，通常は自動で生成される設定^[```generateResolvConf = true```のこと]にしておくべきである．）
 ### 解決策１
@@ -49,7 +49,7 @@ PowerShellでも同じコマンドを実行したとき，両行が成功する�
 ~~~sh:/etc/resolv.conf
 nameserver 8.8.8.8
 ~~~
-これでうまく行かない場合でも，この操作に加えて```wsl --shutdown```などのWSLのシャットダウンを行い再起動すると解決することもよくある．
+これでうまく行かない場合でも，この操作に加えて```wsl --shutdown```などの WSL のシャットダウンを行い再起動すると解決することもよくある．
 ### 解決策２
 前述した[解決策１](#解決策１)の永続化である．
 #### 1.```/etc/wsl.conf```への追記
@@ -59,7 +59,7 @@ nameserver 8.8.8.8
 generateResolvConf = false
 ~~~
 :::message
-* 書き込み権限に注意する（sudoなどする）
+* 書き込み権限に注意する（```sudo``` などする）
 * ファイルがない場合は新規作成する
 * 既に```[network]```の項目がある場合は，```generateResolvConf = false```のみで良い
 :::
@@ -85,7 +85,7 @@ nameserver 8.8.8.8
 ## ネットワークのバインドがうまくいかない場合
 この場合は，[前述の場合](#この場合の特徴)とは異なり，```ping 8.8.8.8```なども失敗する．
 ### 原因
-通常 WSL起動時に，WSL側のネットワークと Windows側の仮想ネットワークは自動でバインドされる．
+通常 WSL 起動時に，WSL側 のネットワークと Windows側 の仮想ネットワークは自動でバインドされる．
 しかし，このバインドがうまく動作していない場合がある．
 今回は これが原因だと考え，手動でバインドすることで解決を図る策を次に述べる．
 ### 解決策１
@@ -99,7 +99,7 @@ sudo ip l set eth0 up
 ~~~sh:wsl
 ip route show | grep -i default | awk '{ print $3}'
 ~~~
-の出力結果が```172.17.224.1```の時次を実行する（出力結果が異なる場合は自分で数値を書き換える）
+の出力結果が```172.17.224.1```の時，次を実行する（出力結果が異なる場合は自分で数値を書き換える）
 ~~~sh:wsl
 sudo ip address add 172.17.224.10/20 broadcast 172.17.224.255 dev eth0
 sudo ip route add default via 172.17.224.1
@@ -110,7 +110,7 @@ sudo ip route add default via 172.17.224.1
 ### 原因
 今回は ネットワークアダプターの不調が原因だと考え，手動で再起動することで解決を図る策を次に述べる．
 ### 解決策
-管理者権限の付いたPowerShellで以下を実行する．
+管理者権限の付いた PowerShell で以下を実行する．
 ~~~sh:posh
 Restart-Service LxssManager # WSL Service の再起動
 
@@ -125,19 +125,20 @@ Get-NetAdapter -IncludeHidden | Where-Object `
     | Enable-NetAdapter -Confirm:$False  # Hyper-V adapters の再起動
 ~~~
 ### 補足
-```Winキー + i```などで Windowsの設定を起動し，
+```Winキー + i```などで Windows の設定を起動し，
 システム > トラブルシューティング > その他のトラブルシューティング > ネットワークとインターネット > Wi-Fi ネットワーク アダプターを再起動します > アダプターを再起動する
 からでも再起動できるが，私の環境では効果がなかった場合もあった．
 
+-----
 # 解決できないとき用の記事
 ### コマンド
 #### WSLのローカルIPアドレス
-Windows側から見るので，PowerShellで実行する．
+Windows側 から見るので，PowerShell で実行する．
 ~~~sh:posh
 wsl hostname -i
 ~~~
 #### WindowsのローカルIPアドレス
-WSL側から見るので，WSLで実行する．
+WSL側 から見るので，WSL で実行する．
 ~~~sh:wsl
 ip route show | grep -i default | awk '{ print $3}'
 ~~~
@@ -157,6 +158,6 @@ ip route show | grep -i default | awk '{ print $3}'
 ## 関係する項目: [ネットワークのバインドがうまくいかない場合](#ネットワークのバインドがうまくいかない場合)
 * [wsl2上のLinux　からインターネットにアクセスできない場合の暫定解決策 – 株式会社シーポイントラボ ｜ 浜松のシステム・RTK-GNSS開発](https://cpoint-lab.co.jp/article/202105/19922/)
 * [\[WSL2_Ubuntu_Debian_Kali\] Network not configured · Issue #5286 · microsoft_WSL](https://github.com/microsoft/WSL/issues/5286)
-## 関係する項目: [ネットワークアダプターが不調の場合](# ネットワークアダプターが不調の場合)
+## 関係する項目: [ネットワークアダプターが不調の場合](#ネットワークアダプターが不調の場合)
 * [WSLでネットワークが不調で外部と通信できないときにやったこと - ✍️blog](https://sabiz.hateblo.jp/entry/2023/05/05/093711)
 * [Can't ping failing in both directions after updating to 10.0.20197.0 · Issue #5805 · microsoft_WSL](https://github.com/microsoft/WSL/issues/5805#issuecomment-703734407)
