@@ -148,6 +148,13 @@ ip route show | grep -i default | awk '{ print $3}'
 * [No internet connection on WSL Ubuntu (Windows Subsystem for Linux) - Stack Overflow](https://stackoverflow.com/questions/62314789/no-internet-connection-on-wsl-ubuntu-windows-subsystem-for-linux/63578387#63578387)
 #### Microsoftの記事
 * [WSL を使用したネットワーク アプリケーションへのアクセス _ Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/wsl/networking)
+#### Hyper-Vとの関係に関する記事
+* [WSL2とHyper-Vの関係 #WSL - Qiita](https://qiita.com/matarillo/items/ca1eecf8f9a3cd76f9ce)
+#### WSLの再インストール
+* [Windows 10とWindows 11でWSLをアンインストールする方法](https://jp.minitool.com/news/uninstall-wsl.html)
+* [WSL2の初歩メモ](https://qiita.com/rubytomato@github/items/a290ecef2ea86ea8350f)
+#### Windowsのデータを保持して再インストール
+* [Windows を再インストールする - Microsoft サポート](https://support.microsoft.com/ja-jp/windows/windows-%E3%82%92%E5%86%8D%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%81%99%E3%82%8B-d8369486-3e33-7d9c-dccc-859e2b022fc7) の [インストール メディアを使用してWindows 11を再インストールする すべて保持する (既定)](https://support.microsoft.com/ja-jp/windows/windows-%E3%82%92%E5%86%8D%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%81%99%E3%82%8B-d8369486-3e33-7d9c-dccc-859e2b022fc7#bkmk_reinstall_windows_10_using_installation_media:~:text=Low-,%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%20%E3%83%A1%E3%83%87%E3%82%A3%E3%82%A2%E3%82%92%E4%BD%BF%E7%94%A8%E3%81%97%E3%81%A6Windows%2011%E3%82%92%E5%86%8D%E3%82%A4%E3%83%B3%E3%82%B9%E3%83%88%E3%83%BC%E3%83%AB%E3%81%99%E3%82%8B,-%E3%81%99%E3%81%B9%E3%81%A6%E4%BF%9D%E6%8C%81%E3%81%99%E3%82%8B)
 
 -----
 # 参考文献
