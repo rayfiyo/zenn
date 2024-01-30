@@ -1,5 +1,5 @@
 ---
-title: "WSL2のディストリを非公式だがArchLinuxにする方法" # 記事のタイトル
+title: "Arch Linux on WSL2 をやる方法" # 記事のタイトル
 emoji: "🐧" # アイキャッチとして使われる絵文字（1文字だけ）
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["wsl", "wsl2", "archlinux", "arch"] # タグ。["markdown", "rust", "aws"]のように指定する
@@ -16,6 +16,11 @@ WSL2のディストリビューションを非公式だがArchLinuxにしたい�
 * dockerの実行環境（私は Windows11側にインストール）
 * この例では，ArchLinuxのユーザー名を userName にする（任意の名前を使用可能）
 * この例では，ArchLinuxのデータを C:\arch\ext4.vhdx に保存する（任意のディレクトリを指定可能）
+
+# 経過観察
+* 2023年10月9日以前に利用開始
+* 2024年1月30日特に支障無し
+　（Dockerイメージの都合上，[manコマンドのエントリーが導入されない問題](https://zenn.dev/rayfiyo/scraps/53bed39cf5d91a#comment-2f6f24ea9525c9)に遭遇 のみ）
 
 # 手順
 ## ArchLinuxの準備 in wsl
@@ -153,3 +158,4 @@ Docker version 24.0.6, build ed223bc
 
 # 参考文献
 * [Arch Linux on Windows Subsystem for Linux (WSL) - YouTube](https://www.youtube.com/watch?v=h0Wg_aknGdc)
+
