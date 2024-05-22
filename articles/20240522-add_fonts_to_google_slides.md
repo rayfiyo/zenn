@@ -2,8 +2,8 @@
 title: "GoogleスライドにGASで任意のフォントを追加する" # 記事のタイトル
 emoji: "✍️" # 1文字
 type: "tech" # tech: 技術記事 / idea: アイデア記事
-topics: ["google", "slides", "font" "gas", "googleスライド"] #５つまで
-published: false # falseで下書き
+topics: ["google", "slides", "font", "gas", "googleスライド"] # ５つまで
+published: true # falseで下書き
 # published_at: 2024-05-22 19:30 # 過去・未来の日時
 
 # https://zenn.dev/zenn/articles/zenn-cli-guide
