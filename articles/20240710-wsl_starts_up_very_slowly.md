@@ -4,7 +4,7 @@ emoji: "🦕" # 1文字
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["wsl", "wsl2", "systemd"] # ["markdown", "rust", "aws"]のように５つまで
 published: true # falseで下書き
-published_at: 2024-07-11 18:00 # 過去・未来の日時
+published_at: 2024-07-10 18:00 # 過去・未来の日時
 
 # https://zenn.dev/zenn/articles/zenn-cli-guide
 # https://zenn.dev/zenn/articles/markdown-guide
@@ -90,7 +90,7 @@ wsl.exe --shutdown
 ## 切り分け
 
 ハードディスクなど WSL が原因ではない可能性を検討するために，セーフモードで起動してみる．
-具体的には，以下の設定を追加して再起動（`wsl.exe --shutdown`）した．
+具体的には，以下の設定を追加した後，再起動（`wsl.exe --shutdown`）した．
 
 ```bash: ~/.wslconfig (posh)
 [wsl2]
@@ -181,7 +181,7 @@ enabled = false
 初回起動時のみに影響があり，
 ファイルアクセスやネットワーク，GUIに問題がないことから，
 `systemd` が原因であると考えた．
-そこで`systemd`を無効化してみる．
+そこで `systemd` を無効化してみる．
 
 なお，これはセーフモードの `boot.systemd disabled` に対応する．
 
@@ -193,9 +193,15 @@ systemd = false
 ```
 
 実際に起動ログを見てみると 2.077917秒で起動できていた．
-また，私は（記憶が正しければ）systemdを使っていないので，systemdを無効化する方法で対処を終了する．
+また，私は（記憶が正しければ）`systemd` を使っていないので，
+`systemd` を無効化する方法で対処を終了する．
 
-根本的な原因を考察すると，systemd を使って何か変なものが起動している可能性が考えられる．
+:::message
+`systemd` は，ユーザーに `systemd` のインスタンスを実行させてサービスを管理できる機能を提供しているから，むやみに無効化すると，
+デーモンやサービスが起動していない という別の問題を引き起こすことが考えられるので，無効化による対処法を採用する場合は十分に検討が必要である．
+:::
+
+なお，根本的な原因の考察は次の節で述べる．
 
 ## 考察
 
@@ -208,6 +214,18 @@ systemd = false
 これは一見`systemd`よりも，
 マウントといったファイル関係の設定が関係しそうである．
 
+しかし，例えば `loginctl` コマンドの
+
+```bash: bash
+loginctl enable-linger username
+```
+
+で `systemd` のユーザーインスタンスを起動している時，`XDG_RUNTIME_DIR` を設定していない場合にこのエラーが見られることがあるようだ．
+
+なお，この現象については，次の記事（[参考文献 3](#参考文献)と同じである）を参照すると良いだろう．
+
+https://blog.n-z.jp/blog/2020-06-02-systemd-user-bus.html
+
 ---
 
 # 参考文献
@@ -216,3 +234,4 @@ systemd = false
   - 日本語版: [Windows Subsystem for Linux のトラブルシューティング \_ Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/wsl/troubleshooting#cannot-access-wsl-files-from-windows) 2024-07-10
 - 2: [Advanced settings configuration in WSL \_ Microsoft Learn](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#automount-settings) 2024-07-10
   - 日本語版: [WSL での詳細設定の構成 \_ Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/wsl/wsl-config#automount-settings) 2024-07-10
+- 3: [ユーザー権限のsystemdにFailed to connect to busで繋がらない時の対処方法 - @znz blog](https://blog.n-z.jp/blog/2020-06-02-systemd-user-bus.html) 2024-07-10
