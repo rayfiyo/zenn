@@ -9,13 +9,31 @@ published: false # falseで下書き
 # https://zenn.dev/zenn/articles/zenn-cli-guide
 # https://zenn.dev/zenn/articles/markdown-guide
 ---
+
 # 概要
 
 # 背景
 
 # 対象読者
------
+
+# 環境
+
+今回の環境は次である．
+
+```
+$ wsl.exe --version
+```
+
+また，ディストーションは Arch Linux である．
+
+```
+$ cat /etc/os-release
+```
+
+---
+
 # 本論
 
------
+---
+
 # 参考文献
