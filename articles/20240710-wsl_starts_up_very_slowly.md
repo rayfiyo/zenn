@@ -36,38 +36,79 @@ published_at: 2024-07-10 18:00 # 過去・未来の日時
 - WSL2 で，`systemd` を利用していて，起動が遅いと感じている人
   - （弊記事は根本的解決を行わないので参考程度にしかならないため）
 
+## 環境
+
+今回の環境は次である．
+
+```
+$ wsl.exe --version
+WSL バージョン: 2.2.4.0
+カーネル バージョン: 5.15.153.1-2
+WSLg バージョン: 1.0.61
+MSRDC バージョン: 1.2.5326
+Direct3D バージョン: 1.611.1-81528511
+DXCore バージョン: 10.0.26091.1-240325-1447.ge-release
+Windows バージョン: 10.0.22631.3810
+```
+
+また，ディストーションは Arch Linux である．
+
+```
+$ cat /etc/os-release
+NAME="Arch Linux"
+PRETTY_NAME="Arch Linux"
+ID=arch
+BUILD_ID=rolling
+VERSION_ID=20231001.0.182270
+ANSI_COLOR="38;2;23;147;209"
+HOME_URL="https://archlinux.org/"
+DOCUMENTATION_URL="https://wiki.archlinux.org/"
+SUPPORT_URL="https://bbs.archlinux.org/"
+BUG_REPORT_URL="https://bugs.archlinux.org/"
+PRIVACY_POLICY_URL="https://terms.archlinux.org/docs/privacy-policy/"
+LOGO=archlinux-logo
+```
+
 ---
 
 # 本論
 
 ## 問題の再確認
 
-- WSL2（以降，WSL）の起動が遅い
-- 魔法のコマンドをPowerShell（posh）で試す
+WSL2（以降，WSL）の起動が遅いことを確認するため、以下の PowerShell（以降,
+posh） コマンドを実行した．
 
 ```bash: posh
 wsl.exe --shutdown
 ```
 
-- 変わらず起動が遅い
-  - １度起動すると再起動するまでは起動は早くなる
+### 結果
+
+- 変わらず起動が遅かった
+- 一度起動すると再起動までは起動時間が遅くならなかった
 
 ## 切り分け
 
-- ハードディスクなどWSLが原因ではない可能性がある
-- 以下を書き足して，セーフモードで起動する
+ハードディスクなど WSL が原因ではない可能性を検討するために，セーフモードで起動してみる．
+具体的には，以下の設定を追加して再起動（`wsl.exe --shutdown`）した．
 
 ```bash: ~/.wslconfig (posh)
 [wsl2]
 safeMode=true
 ```
 
-- shutdown して再起動すると爆速で起動した
+### 結果
+
+- 起動が非常に速くなった
 
 ## 起動ログの取得
 
 [1](#参考文献) によると，起動ログ（the start up logs）は `dmesg` コマンドで取得できる．
-今回はファイルに保存したいので`>`でリダイレクトする．
+
+このコマンドはWSLに限定せず，Linux でカーネルログを確認するために使用される．
+通常は `grep` や `-l`オプションで影響レベルの絞り込みなど をするが，今回は調査である点と興味がある点を考慮して，全ログをファイルに保存して確認する．
+
+（保存は`>`でリダイレクトすれば良い）
 
 ### セーフモード
 
@@ -75,9 +116,9 @@ safeMode=true
 dmesg > safeMode
 ```
 
-実際に確認してみると，1.261612秒で起動していた．
+実際に確認してみると，`1.261612`秒で起動していた．
 
-また，
+また，以下のログからセーフモードであること と 無効化されている機能を確認した．
 
 ```
 [    0.616728] WSL (1) WARNING: SAFE MODE ENABLED - automount.enabled disabled
@@ -97,49 +138,54 @@ dmesg > safeMode
 [    0.787295] WSL (1) WARNING: /etc/resolv.conf updating disabled in /etc/wsl.conf
 ```
 
-というログがあり，これがセーフモードであることも確認した．
-
 ### 通常モード
 
 ```bash: bash
 dmesg > normalMode
 ```
 
-実際に確認してみると，12.366470秒で起動していた．
+実際に確認してみると，`12.366470`秒で起動していた．
 
-また，`Failed to connect to bus: No such file or directory` で１秒程度の時間がかかり，これか複数行あった．
+また，以下のエラーメッセージが複数行あり、経過時間を確認すると，これが遅延の原因であった．
+
+```bash: dmesg
+Failed to connect to bus: No such file or directory
+```
 
 ## 調査
 
-起動ログの取得 の [セーフモード](#セーフモード) と [通常モード](#通常モード) を比較してみると，明らかに起動時間に差がある．
-よって，WSLの設定（環境）によって起動が遅くなっていると考えた．
-また，[セーフモード](セーフモード) で述べた通り，
+起動ログの取得 の [セーフモード](#セーフモード) と [通常モード](#通常モード) を比較してみると，明らかに起動時間に差がので，WSL の設定が起動時間に影響していると言える．
 セーフモードでは一部機能が無効化されている．
 
 そこで，セーフモードで無効化された機能のうち，どの機能が起動時間に大きく関係があるかを調べる．
-WSLの機能は，posh側の ` ~/.wslconfig` だけでなく，
-wsl側の `/etc/wsl.conf` もある．[2](#参考文献)
+WSL の設定は `~/.wslconfig` と `/etc/wsl.conf` がある．[2](#参考文献)
+これらの設定を調整することで，起動時間を改善できる可能性がある．
 
-例えば，
+これら設定については[参考文献の2](#参考文献)である以下を参考してほしい．
+（日本語版のURLは後述）
+
+https://learn.microsoft.com/en-us/windows/wsl/wsl-config#automount-settings
+
+### 自動マウント
+
+例えば，以下の設定で固定ドライブの自動マウント（/mnt/c など）を無効化できる．
+なお，これはセーフモードの `automount.enabled disabled` に対応する．
 
 ```bash: /etc/wsl.conf
 [automount]
 enabled = false
 ```
 
-では，固定ドライブの自動マウント（/mnt/c など）が無効化される．
-試しにこれを行い．shutdown してみたが，起動時間に有意的な変化は見受けられなかった．
-なお，これはセーフモードの `automount.enabled disabled` に対応する．
+### systemd
 
-その他の設定については[参考文献の2](#参考文献)である以下を参考してほしい．
-（日本語版のURLは後述）
+初回起動時のみに影響があり，
+ファイルアクセスやネットワーク，GUIに問題がないことから，
+`systemd` が原因であると考えた．
+そこで`systemd`を無効化してみる．
 
-https://learn.microsoft.com/en-us/windows/wsl/wsl-config#automount-settings
+なお，これはセーフモードの `boot.systemd disabled` に対応する．
 
 ## 対処法
-
-最終的に私がたどり着いた設定は，`systemd`を無効化する方法である．
-これはセーフモードの `boot.systemd disabled` に対応する．
 
 ```bash: /etc/wsl.conf
 [boot]
@@ -150,6 +196,19 @@ systemd = false
 また，私は（記憶が正しければ）systemdを使っていないので，systemdを無効化する方法で対処を終了する．
 
 根本的な原因を考察すると，systemd を使って何か変なものが起動している可能性が考えられる．
+
+## 考察
+
+[通常モード](#通常モード) で述べたエラーを日本語に訳すと次になる．
+
+```
+バスへの接続に失敗しました: そのようなファイルまたはディレクトリがありません
+```
+
+これは一見`systemd`よりも，
+マウントといったファイル関係の設定が関係しそうである．
+
+
 
 ---
 
