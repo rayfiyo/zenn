@@ -4,7 +4,7 @@ emoji: "🦕" # 1文字
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["wsl", "wsl2", "systemd"] # ["markdown", "rust", "aws"]のように５つまで
 published: true # falseで下書き
-published_at: 2024-07-10 18:00 # 過去・未来の日時
+published_at: 2024-07-11 18:00 # 過去・未来の日時
 
 # https://zenn.dev/zenn/articles/zenn-cli-guide
 # https://zenn.dev/zenn/articles/markdown-guide
@@ -207,8 +207,6 @@ systemd = false
 
 これは一見`systemd`よりも，
 マウントといったファイル関係の設定が関係しそうである．
-
-
 
 ---
 
