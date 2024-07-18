@@ -239,6 +239,10 @@ https://blog.n-z.jp/blog/2020-06-02-systemd-user-bus.html
 
 ## 方法
 
+:::message
+この方法は破壊的変更とも呼べるものなので，常人は [こちら](https://qiita.com/osorezugoing/items/ec53965bc5a026cdb9db) のような `systemd` のサービスを削除する方式を取ることを強く勧める．
+:::
+
 まず，Windowsの `.\.wslconfig` を編集して，safemode で起動する．
 
 ```
