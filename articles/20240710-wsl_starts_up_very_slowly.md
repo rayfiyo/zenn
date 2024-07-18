@@ -14,7 +14,8 @@ published_at: 2024-07-10 18:00 # 過去・未来の日時
 
 - WSL2 の起動が遅いので，調査を行った．
 - 原因が `systemd` であると突き止め，対処した．
-- 根本的解決方法は未調査である．
+- 根本的解決方法は~~未調査~~である．
+  - 2024年7月18日追記: スマートではないが根本的に解決した． [こちら](#解決)
 
 # 背景
 
@@ -225,6 +226,58 @@ loginctl enable-linger username
 なお，この現象については，次の記事（[参考文献 3](#参考文献)と同じである）を参照すると良いだろう．
 
 https://blog.n-z.jp/blog/2020-06-02-systemd-user-bus.html
+
+# 解決
+
+2024年7月18日追記
+
+`systemd` が悪さをしていることが分かったが対処できずにいた．
+しかし，あまりにも遅いことと，`systemctl` や `loginctl` が起動していないなどの被害も確認されたので対処することにした．
+
+方法は至って単純で，`systemd` を再インストールすればよい．
+これをすることで `systemd` の構成をリセットできる．（もちろん各自バックアップを取るべきである）
+
+## 方法
+
+まず，Windowsの `.\.wslconfig` を編集して，safemode で起動する．
+
+```
+$ cat .\.wslconfig
+
+[wsl2]
+safeMode=true
+```
+
+続いて，`wsl --shutdown` などで終了させた後，WSLを起動し `systemd` をアンインストールする．
+
+例えば私の環境（Arch Linux）であれば，
+
+```sh
+sudo pacman -R systemd
+```
+
+となる．このとき，依存関係で削除できないので１つ１つ消していく．
+`-Rs`という依存関係もまるごと削除するオプションがあるが，再インストールを忘れた時が面倒そうなので**手動で依存関係を消していく．**
+
+私の場合は，以下の依存関係と依存関係の依存関係を削除した．
+
+```sh
+base
+
+libgudev
+gst-plugins-bad-libs
+gst-plugins-base-libs
+libmanette
+
+libpulse
+libopenmpt
+
+systemd-sysvcompat
+```
+
+その後，`systemd` を再インストールし，依存関係のパッケージをインストールした．
+
+最後に `wsl --shutdown` で再起動すると，爆速で起動した．
 
 ---
 
