@@ -283,6 +283,20 @@ systemd-sysvcompat
 
 最後に `wsl --shutdown` で再起動すると，爆速で起動した．
 
+## 補足
+
+削除を実行した人は次を root 権限で実行して失われたシステム設定ファイルをインポートすることをお勧めする．
+
+```
+systemd-machine-id-setup
+systemd-firstboot --prompt
+systemctl preset-all
+```
+
+また，その他の設定（ネットワークなど）はこの記事が参考になった．
+是非今のうちに`systemd`の初期設定を調べることを勧める．
+https://wiki.gentoo.org/wiki/Systemd/ja
+
 ---
 
 # 参考文献
@@ -292,3 +306,4 @@ systemd-sysvcompat
 - 2: [Advanced settings configuration in WSL \_ Microsoft Learn](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#automount-settings) 2024-07-10
   - 日本語版: [WSL での詳細設定の構成 \_ Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/wsl/wsl-config#automount-settings) 2024-07-10
 - 3: [ユーザー権限のsystemdにFailed to connect to busで繋がらない時の対処方法 - @znz blog](https://blog.n-z.jp/blog/2020-06-02-systemd-user-bus.html) 2024-07-10
+- 4: [systemd - Gentoo Wiki](https://wiki.gentoo.org/wiki/Systemd/ja)
