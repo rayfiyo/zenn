@@ -293,8 +293,15 @@ systemd-firstboot --prompt
 systemctl preset-all
 ```
 
-また，その他の設定（ネットワークなど）はこの記事が参考になった．
-是非今のうちに`systemd`の初期設定を調べることを勧める．
+他にも `ping` が使えない問題などもある．
+
+```
+chmod 4711 /usr/bin/ping
+```
+
+そのため．是非今のうちに`systemd`の初期設定を調べることを勧める．
+
+なお，その他の設定はこの記事が参考になった．
 https://wiki.gentoo.org/wiki/Systemd/ja
 
 ---
