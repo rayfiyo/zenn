@@ -20,13 +20,13 @@ published: false # falseで下書き
 
 今回の環境は次である．
 
-```
+```fish:terminal
 $ wsl.exe --version
 ```
 
 また，ディストーションは Arch Linux である．
 
-```
+```fish:terminal
 $ cat /etc/os-release
 ```
 
