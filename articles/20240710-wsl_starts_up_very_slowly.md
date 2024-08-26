@@ -12,7 +12,7 @@ published_at: 2024-07-10 18:00 # 過去・未来の日時
 
 # 概要
 
-[結末だけ知りたい人はこちら](#対処法)
+[結末だけ知りたい人はこちら](#対処法と解決策)
 
 - WSL2 の起動が遅いので，調査を行った．
 - 原因が `systemd` であると突き止め，対処した．
@@ -154,13 +154,28 @@ dmesg > normalMode
 ] Failed to connect to bus: No such file or directory
 ```
 
-なお，このエラー群の以降のエラーは次である．
-（どこまでが関係するのかわからないので記しておく）
+なお，このエラー群の以降のエラーとログについて書き記しておく．
+
+次のエラーは，恐らくタイムアウトを示している．
+実際に[対処法](#対処法)で述べている方法を適用すると，
+末尾の数字（ここでは `10000`）が設定した値に変化する．
+また，`/sbin/init` は `systemd` のことを指し，`ps aux` で確認できる `PID 1` である．
 
 ```bash: dmesg
 ] WSL (2) ERROR: WaitForBootProcess:3342: /sbin/init failed to start within 10000
+```
+
+次のエラーはわからない．Microsoftなのか，ミリ秒なのか…
+
+```bash: dmesg
 ] ms
-] WSL (2): Creating login session for ray
+```
+
+次のログは，そのままの意味である．
+ユーザの作成に成功していることを示す．
+
+```bash: dmesg
+] WSL (2): Creating login session for ユーザ名
 ```
 
 :::message
@@ -207,7 +222,7 @@ enabled = false
 
 なお，これはセーフモードの `boot.systemd disabled` に対応する．
 
-## 対処法
+## sytemdの無効化
 
 ```bash: /etc/wsl.conf
 [boot]
