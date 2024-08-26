@@ -12,11 +12,13 @@ published_at: 2024-07-10 18:00 # 過去・未来の日時
 
 # 概要
 
+[結末だけ知りたい人はこちら](#対処法)
+
 - WSL2 の起動が遅いので，調査を行った．
 - 原因が `systemd` であると突き止め，対処した．
 - 根本的解決方法は~~未調査~~である．
-  - 2024年7月18日追記: スマートではないが根本的に解決した． [こちら](#解決)
-  - 2024年8月26日追記: ↑これで解決できない場合あり
+  - 2024年7月18日追記: 再インストールする方法を記した．
+  - 2024年8月26日追記: ↑解決できない場合があったので，[対処法](#対処法)を見つけた
 
 # 背景
 
@@ -42,7 +44,7 @@ published_at: 2024-07-10 18:00 # 過去・未来の日時
 
 今回の環境は次である．
 
-```
+```bash
 $ wsl.exe --version
 WSL バージョン: 2.2.4.0
 カーネル バージョン: 5.15.153.1-2
@@ -55,7 +57,7 @@ Windows バージョン: 10.0.22631.3810
 
 また，ディストーションは Arch Linux である．
 
-```
+```bash
 $ cat /etc/os-release
 NAME="Arch Linux"
 PRETTY_NAME="Arch Linux"
@@ -357,8 +359,30 @@ graphical.target @31.709s
 
 mount って言っているし，WSLで遅くなるあるあるの Windows のファイルにアクセスしているだと思って`/etc/wsl.conf/`で無効化してみるも，改善せず…．
 
-# 解決策？
+# 対処法と解決策
 
+:::message
+環境変数の未設定がエラー（遅延）の原因の場合もあるようだ．
+これの場合ついては [考察](#考察) の後半に記述している．
+:::
+
+## 対処法
+
+原因を解決するものではないが，対処法を見つけた．[\*6](#6)
+以下のように timeout を設定すれば良い．
+
+```bash: /etc/wsl.conf
+[boot]
+initTimeout=1000
+```
+
+## 解決策？
+
+:::message
+この方法は破壊的変更とも呼べるものなので，常人は [こちら](https://qiita.com/osorezugoing/items/ec53965bc5a026cdb9db) のような `systemd` のサービスを削除する方式を取ることを強く勧める．
+:::
+
+:::details この方法でも解決できない場合があったのでアコーディオン化
 2024年7月18日追記
 
 `systemd` が悪さをしていることが分かったが対処できずにいた．
@@ -368,19 +392,6 @@ mount って言っているし，WSLで遅くなるあるあるの Windows の�
 これをすることで `systemd` の構成をリセットできる．（もちろん各自バックアップを取るべきである）
 
 ## 方法
-
-:::message alert
-以降の方法でも解決できない場合があります．
-:::
-
-:::message
-この方法は破壊的変更とも呼べるものなので，常人は [こちら](https://qiita.com/osorezugoing/items/ec53965bc5a026cdb9db) のような `systemd` のサービスを削除する方式を取ることを強く勧める．
-:::
-
-:::message
-環境変数の未設定がエラー（遅延）の原因の場合もあるようだ．
-これについては [考察](#考察) の後半に記述している．
-:::
 
 まず，Windowsの `.\.wslconfig` を編集して，safemode で起動する．
 
@@ -443,6 +454,8 @@ chmod 4711 /usr/bin/ping
 なお，その他の設定はこの記事が参考になった．
 https://wiki.gentoo.org/wiki/Systemd/ja
 
+:::
+
 ---
 
 # 参考文献
@@ -468,3 +481,7 @@ https://wiki.gentoo.org/wiki/Systemd/ja
 #### 5
 
 - [起動が遅い原因は？そんな時はsystemd-analyzeでチェック \_ Simple blog @atani](https://atani.github.io/2015/06/%E8%B5%B7%E5%8B%95%E3%81%8C%E9%81%85%E3%81%84%E5%8E%9F%E5%9B%A0%E3%81%AF%EF%BC%9F%E3%81%9D%E3%82%93%E3%81%AA%E6%99%82%E3%81%AFsystemd-analyze%E3%81%A7%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF/) 2024-08-26
+
+#### 5
+
+- [\`systemd status\` fails output on Ubuntu · Issue #8879 · microsoft_WSL](https://github.com/microsoft/WSL/issues/8879)
