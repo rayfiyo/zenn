@@ -105,8 +105,6 @@ safeMode=true
 ## 起動ログの取得
 
 起動ログ（the start up logs）は `dmesg` コマンドで取得できる．[\*1](#1)
-https://zenn.dev/rayfiyo/articles/20240710-wsl_starts_up_very_slowly#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE
-
 このコマンドはWSLに限定せず，Linux でカーネルログを確認するために使用される．
 通常は `grep` や `-l`オプションで影響レベルの絞り込みなど をするが，今回は調査である点と興味がある点を考慮して，全ログをファイルに保存して確認する．
 
