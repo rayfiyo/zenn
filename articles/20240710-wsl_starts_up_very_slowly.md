@@ -104,7 +104,8 @@ safeMode=true
 
 ## 起動ログの取得
 
-起動ログ（the start up logs）は `dmesg` コマンドで取得できる．^[\[参考文献 1\](#参考文献)]
+起動ログ（the start up logs）は `dmesg` コマンドで取得できる．[\*1](#1)
+https://zenn.dev/rayfiyo/articles/20240710-wsl_starts_up_very_slowly#%E5%8F%82%E8%80%83%E6%96%87%E7%8C%AE
 
 このコマンドはWSLに限定せず，Linux でカーネルログを確認するために使用される．
 通常は `grep` や `-l`オプションで影響レベルの絞り込みなど をするが，今回は調査である点と興味がある点を考慮して，全ログをファイルに保存して確認する．
@@ -178,11 +179,11 @@ https://ngv.jp/blog/2023/05/10/242/
 セーフモードでは一部機能が無効化されているからだ．
 
 そこで，セーフモードで無効化された機能のうち，**どの機能が起動時間に大きく関係があるか**を調べる．
-WSL の設定は `~/.wslconfig`(Windows側) と `/etc/wsl.conf`(WSL側) がある．[2](#参考文献)
+WSL の設定は `~/.wslconfig`(Windows側) と `/etc/wsl.conf`(WSL側) がある．[\*2](#2)
 この２つの設定を調整することで，起動時間を改善できる可能性があり，
 特に `/etc/wsl.conf` は仮想環境の設定であるから起動に関与していると想像できる．
 
-なお，これら設定については[参考文献の2](#参考文献)である次を参考してほしい．
+なお，これら設定については[参考文献 2](#2)である次を参照すると良い．
 （日本語版のURLは後述）
 
 https://learn.microsoft.com/en-us/windows/wsl/wsl-config#automount-settings
@@ -252,7 +253,7 @@ echo $DBUS_SESSION_BUS_ADDRESS
 
 の実行結果が空である場合，環境変数の未設定が原因である可能性が高い．
 
-なお，この現象については，次の記事（[参考文献 3](#参考文献)と同じである）を参照すると良いだろう．
+なお，この現象については，次の記事（[参考文献 3](#3)と同じである）を参照すると良い．
 
 https://blog.n-z.jp/blog/2020-06-02-systemd-user-bus.html
 
@@ -280,7 +281,7 @@ Failed to connect to bus: No such file or directory
 
 ### systemdの切り分け
 
-また，`systemd` が疑わしいことは明らかになったので，`systemd` のうちどれが原因かを次のコマンドで探る．\*[5](#参考文献)
+また，`systemd` が疑わしいことは明らかになったので，`systemd` のうちどれが原因かを次のコマンドで探る．[\*5](#5)
 なお，私の場合は `systemd` の起動が遅い（と判明していた）ので，しばらく待って実行した．
 
 ```
@@ -409,10 +410,24 @@ https://wiki.gentoo.org/wiki/Systemd/ja
 
 # 参考文献
 
-- 1: [Troubleshooting Windows Subsystem for Linux \_ Microsoft Learn](https://learn.microsoft.com/en-us/windows/wsl/troubleshooting#cannot-access-wsl-files-from-windows) 2024-07-10
-  - 日本語版: [Windows Subsystem for Linux のトラブルシューティング \_ Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/wsl/troubleshooting#cannot-access-wsl-files-from-windows) 2024-07-10
-- 2: [Advanced settings configuration in WSL \_ Microsoft Learn](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#automount-settings) 2024-07-10
-  - 日本語版: [WSL での詳細設定の構成 \_ Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/wsl/wsl-config#automount-settings) 2024-07-10
-- 3: [ユーザー権限のsystemdにFailed to connect to busで繋がらない時の対処方法 - @znz blog](https://blog.n-z.jp/blog/2020-06-02-systemd-user-bus.html) 2024-07-10
-- 4: [systemd - Gentoo Wiki](https://wiki.gentoo.org/wiki/Systemd/ja)
-- 5: [起動が遅い原因は？そんな時はsystemd-analyzeでチェック \_ Simple blog @atani](https://atani.github.io/2015/06/%E8%B5%B7%E5%8B%95%E3%81%8C%E9%81%85%E3%81%84%E5%8E%9F%E5%9B%A0%E3%81%AF%EF%BC%9F%E3%81%9D%E3%82%93%E3%81%AA%E6%99%82%E3%81%AFsystemd-analyze%E3%81%A7%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF/)
+## 1
+
+- [Troubleshooting Windows Subsystem for Linux \_ Microsoft Learn](https://learn.microsoft.com/en-us/windows/wsl/troubleshooting#cannot-access-wsl-files-from-windows) 2024-07-10
+- 日本語版: [Windows Subsystem for Linux のトラブルシューティング \_ Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/wsl/troubleshooting#cannot-access-wsl-files-from-windows) 2024-07-10
+
+## 2
+
+- [Advanced settings configuration in WSL \_ Microsoft Learn](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#automount-settings) 2024-07-10
+- 日本語版: [WSL での詳細設定の構成 \_ Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/wsl/wsl-config#automount-settings) 2024-07-10
+
+## 3
+
+- [ユーザー権限のsystemdにFailed to connect to busで繋がらない時の対処方法 - @znz blog](https://blog.n-z.jp/blog/2020-06-02-systemd-user-bus.html) 2024-07-10
+
+## 4
+
+- [systemd - Gentoo Wiki](https://wiki.gentoo.org/wiki/Systemd/ja) 2024-07-18
+
+## 5
+
+- [起動が遅い原因は？そんな時はsystemd-analyzeでチェック \_ Simple blog @atani](https://atani.github.io/2015/06/%E8%B5%B7%E5%8B%95%E3%81%8C%E9%81%85%E3%81%84%E5%8E%9F%E5%9B%A0%E3%81%AF%EF%BC%9F%E3%81%9D%E3%82%93%E3%81%AA%E6%99%82%E3%81%AFsystemd-analyze%E3%81%A7%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF/) 2024-08-26
