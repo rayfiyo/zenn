@@ -19,10 +19,10 @@ published_at: 2024-07-10 18:00 # 過去・未来の日時
 
 # 背景
 
-私はよく WSL （厳密には WSL2）を利用している．
+私はよく WSL （厳密には WSL2）を利用している．\
 そして，最近，起動が遅いと感じていた．
-更新などをしてみても改善せず，
-そもそも neovim のように起動時間やログを見る方法が
+更新などをしてみても改善せず，\
+そもそも neovim のように起動時間やログを見る方法が\
 わからなかったのでこの際に調べてみた．
 
 # 対象読者
@@ -147,11 +147,30 @@ dmesg > normalMode
 
 実際に確認してみると，`12.366470`秒で起動していた．
 
-また，以下のエラーメッセージが複数行あり、経過時間を確認すると，これが遅延の原因であった．
+また，以下のエラーメッセージが複数行あり、経過時間を確認すると，これが遅延の原因であった．（時間は省略）
 
 ```bash: dmesg
-Failed to connect to bus: No such file or directory
+] Failed to connect to bus: No such file or directory
 ```
+
+なお，このエラー群の以降のエラーは以下である．
+（どこまでが関係するのかわからないので記しておく）
+
+```bash: dmesg
+] WSL (2) ERROR: WaitForBootProcess:3342: /sbin/init failed to start within 10000
+] ms
+] WSL (2): Creating login session for ray
+```
+
+:::message
+
+```bash: dmesg
+misc dxg: dxgk: dxgkio_query_adapter_info: Ioctl failed: -2
+```
+
+などの一部エラーは既知らしい．詳しくは次のページが参考になった．
+https://ngv.jp/blog/2023/05/10/242/
+:::
 
 ## 調査
 
@@ -212,10 +231,10 @@ systemd = false
 バスへの接続に失敗しました: そのようなファイルまたはディレクトリがありません
 ```
 
-これは一見`systemd`よりも，
-マウントといったファイル関係の設定が関係しそうである．
+これは一見`systemd`よりも，\
+マウントといったファイル関係の設定が関係しそうである．（主観）
 
-しかし，例えば `loginctl` コマンドの
+しかし実際は，例えば `loginctl` コマンドの
 
 ```bash: bash
 loginctl enable-linger username
@@ -223,9 +242,22 @@ loginctl enable-linger username
 
 で `systemd` のユーザーインスタンスを起動している時，`XDG_RUNTIME_DIR` を設定していない場合にこのエラーが見られることがあるようだ．
 
+fish を使っている場合は
+
+```fish: fish
+echo $XDG_RUNTIME_DIR
+echo $DBUS_SESSION_BUS_ADDRESS
+```
+
+の実行結果が空である場合，環境変数の未設定が原因である可能性が高い．
+
 なお，この現象については，次の記事（[参考文献 3](#参考文献)と同じである）を参照すると良いだろう．
 
 https://blog.n-z.jp/blog/2020-06-02-systemd-user-bus.html
+
+或いはこちらも参考になるかもしれない．
+
+https://dw.exitstatus0.com/doku.php?id=wiki:systemd_user_service
 
 # 解決
 
@@ -241,6 +273,17 @@ https://blog.n-z.jp/blog/2020-06-02-systemd-user-bus.html
 
 :::message
 この方法は破壊的変更とも呼べるものなので，常人は [こちら](https://qiita.com/osorezugoing/items/ec53965bc5a026cdb9db) のような `systemd` のサービスを削除する方式を取ることを強く勧める．
+:::
+
+:::message
+環境変数の未設定がエラー（遅延）の原因の場合もあるようだ．
+
+```fish: fish
+echo $XDG_RUNTIME_DIR
+echo $DBUS_SESSION_BUS_ADDRESS
+```
+
+などが空の場合は [考察](#考察) に記述しているURLを参考にすると良い．
 :::
 
 まず，Windowsの `.\.wslconfig` を編集して，safemode で起動する．
