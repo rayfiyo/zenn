@@ -1,5 +1,5 @@
 ---
-title: "WSLの起動が遅い(12秒)" # 記事のタイトル
+title: "WSLの起動が遅い(12秒)(対処法有)" # 記事のタイトル
 emoji: "🦕" # 1文字
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["wsl", "wsl2", "systemd"] # ["markdown", "rust", "aws"]のように５つまで
@@ -17,7 +17,7 @@ published_at: 2024-07-10 18:00 # 過去・未来の日時
 - WSL2 の起動が遅いので，調査を行った．
 - 原因が `systemd` であると突き止め，対処した．
 - 根本的解決方法は~~未調査~~である．
-  - 2024年7月18日追記: 再インストールする方法を記した．
+  - 2024年7月18日追記: 再インストールする方法を[記した](#解決策？)．
   - 2024年8月26日追記: ↑解決できない場合があったので，[対処法](#対処法)を見つけた
 
 # 背景
@@ -497,6 +497,6 @@ https://wiki.gentoo.org/wiki/Systemd/ja
 
 - [起動が遅い原因は？そんな時はsystemd-analyzeでチェック \_ Simple blog @atani](https://atani.github.io/2015/06/%E8%B5%B7%E5%8B%95%E3%81%8C%E9%81%85%E3%81%84%E5%8E%9F%E5%9B%A0%E3%81%AF%EF%BC%9F%E3%81%9D%E3%82%93%E3%81%AA%E6%99%82%E3%81%AFsystemd-analyze%E3%81%A7%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF/) 2024-08-26
 
-#### 5
+#### 6
 
 - [\`systemd status\` fails output on Ubuntu · Issue #8879 · microsoft_WSL](https://github.com/microsoft/WSL/issues/8879)
