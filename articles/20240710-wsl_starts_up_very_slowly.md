@@ -318,7 +318,46 @@ systemd-analyze blame
  48ms systemd-journald.service
 ```
 
-# 解決
+:::details 時間を合計する
+
+本当に合計が30秒（30000ms）程度になるか調べてみる
+
+```
+systemd-analyze  blame | awk '{print $1}' | sed -e 's/ms/+/'
+```
+
+をすると大体いい感じになるので，msではないやつは無視して，末尾の + を = に置換して，Google検索に投げる．
+結果は，`2272`だった．
+あれ，7%くらいしかないじゃん… 93%どこいったの…
+:::
+
+起動の遅かったユニットのどれが原因かは次のコマンドでわかるらしい．[\*5](#5)
+
+```
+systemd-analyze critical-chain
+```
+
+結果は次．いや，もっと詳しく教えてくれ…
+
+```
+The time when unit became active or started is printed after the "@" character.
+The time the unit took to start is printed after the "+" character.
+
+graphical.target @31.709s
+└─multi-user.target @31.709s
+  └─systemd-logind.service @31.637s +70ms
+    └─basic.target @31.627s
+      └─dbus-broker.service @31.591s +33ms
+        └─dbus.socket @31.583s
+          └─sysinit.target @31.580s
+            └─systemd-resolved.service @31.473s +105ms
+              └─run-credentials-systemd\x2dresolved.service.mount @31.481s
+
+```
+
+mount って言っているし，WSLで遅くなるあるあるの Windows のファイルにアクセスしているだと思って`/etc/wsl.conf/`で無効化してみるも，改善せず…．
+
+# 解決策？
 
 2024年7月18日追記
 
@@ -408,24 +447,24 @@ https://wiki.gentoo.org/wiki/Systemd/ja
 
 # 参考文献
 
-## 1
+#### 1
 
 - [Troubleshooting Windows Subsystem for Linux \_ Microsoft Learn](https://learn.microsoft.com/en-us/windows/wsl/troubleshooting#cannot-access-wsl-files-from-windows) 2024-07-10
 - 日本語版: [Windows Subsystem for Linux のトラブルシューティング \_ Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/wsl/troubleshooting#cannot-access-wsl-files-from-windows) 2024-07-10
 
-## 2
+#### 2
 
 - [Advanced settings configuration in WSL \_ Microsoft Learn](https://learn.microsoft.com/en-us/windows/wsl/wsl-config#automount-settings) 2024-07-10
 - 日本語版: [WSL での詳細設定の構成 \_ Microsoft Learn](https://learn.microsoft.com/ja-jp/windows/wsl/wsl-config#automount-settings) 2024-07-10
 
-## 3
+#### 3
 
 - [ユーザー権限のsystemdにFailed to connect to busで繋がらない時の対処方法 - @znz blog](https://blog.n-z.jp/blog/2020-06-02-systemd-user-bus.html) 2024-07-10
 
-## 4
+#### 4
 
 - [systemd - Gentoo Wiki](https://wiki.gentoo.org/wiki/Systemd/ja) 2024-07-18
 
-## 5
+#### 5
 
 - [起動が遅い原因は？そんな時はsystemd-analyzeでチェック \_ Simple blog @atani](https://atani.github.io/2015/06/%E8%B5%B7%E5%8B%95%E3%81%8C%E9%81%85%E3%81%84%E5%8E%9F%E5%9B%A0%E3%81%AF%EF%BC%9F%E3%81%9D%E3%82%93%E3%81%AA%E6%99%82%E3%81%AFsystemd-analyze%E3%81%A7%E3%83%81%E3%82%A7%E3%83%83%E3%82%AF/) 2024-08-26
