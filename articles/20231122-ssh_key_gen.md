@@ -9,19 +9,47 @@ published_at: 2023-11-22 18:00 # 過去・未来の日時
 # https://zenn.dev/zenn/articles/zenn-cli-guide
 # https://zenn.dev/zenn/articles/markdown-guide
 ---
+
 # 概要
-```ssh-keygen``` で Ed25519 を使った鍵を，ユーザ名とホスト名の記述を変更して作成する
+
+`ssh-keygen` で Ed25519 アルゴリズムで生成した鍵の，ユーザ名とホスト名の記述を変更して作成する．
+
 # 背景
-```ssh-keygen``` で ssh の鍵を作る方法をいつも忘れているのでメモ
+
+`ssh-keygen` で ssh の鍵を作る方法をいつも忘れているのでメモした．
+
 # 対象読者
-ssh をよく使っていて，たまに ssh の鍵を作成する機会があるが毎回調べている人
+
+稀に ssh の鍵を作成する機会があるので毎回調べている人．
+
 # 本文
-```cat hoge.pub``` をしたとき，末尾を ```userName@hostName``` にしたい場合
-（ユーザ名 を userName，ホスト名 を hostNameにしたい場合）
-~~~sh
-ssh-keygen -t ed25519 -C "userName@hostName"
-~~~
+
+## 鍵の生成
+
+`cat hoge.pub` をしたとき，末尾を `user-name@host-name` にしたい場合
+（ユーザ名 を user-name，ホスト名 を host-nameにしたい場合）
+
+```sh
+ssh-keygen -t ed25519 -C "user-name@host-name"
+```
+
+## 登録
+
+sshした先で先にファイルを準備しておく．
+
+```
+mkdir $HOME/.ssh
+touch $HOME/.ssh/authorized_keys
+```
+
+`exit` したら公開鍵を登録する．
+
+```
+cat ~/.ssh/id_ed25519.pub | ssh hoge-user@example.hoge 'cat >> .ssh/authorized_keys'
+```
+
 # 参考文献
+
 ユーザ名とホスト名について:
 https://dev.classmethod.jp/articles/ssh-keygen-tips/
 
