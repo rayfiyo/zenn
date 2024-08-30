@@ -1,5 +1,5 @@
 ---
-title: "archにfishshellをneovimを使ってセットアップする" # 記事のタイトル
+title: "fishshellの汎用的なセットアップメモ" # 記事のタイトル
 emoji: "🐟" # 1文字
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["fish", "shell", "fishshell", "setup"] # ["markdown", "rust", "aws"]のように５つまで
@@ -77,7 +77,7 @@ sudo pacman -S fish
 
 :::
 
-:::detials 管理者権限（sudo）について
+:::details 管理者権限（sudo）について
 fish のインストールは管理者権限がないと辛い．
 管理者権限なしの自力でビルドなら，`cmake` が事実上必須．
 `cmake` もビルドするなら，`gcc` と `build-essential` は必須．
