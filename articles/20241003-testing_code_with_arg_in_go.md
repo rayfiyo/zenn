@@ -99,17 +99,21 @@ func TestParse(t *testing.T) {
 	}{
 		{
 			name: "引数が1つの場合",
-			args: []string{"program", "hello"},
+
+            // 設定しない場合，第一引数はプログラム名が入る．
+            // 上書きしない方法はわからない…
+			args: []string{"main", "hello"},
+
 			want: "hello",
 		},
 		{
 			name: "引数が複数の場合",
-			args: []string{"program", "hello", "world"},
+			args: []string{"main", "hello", "world"},
 			want: "hello",
 		},
 		{
 			name: "引数がない場合",
-			args: []string{"program"},
+			args: []string{"main"},
 			want: "",
 		},
 	}
