@@ -3,7 +3,7 @@ title: "グローバルなgitignoreの設定を大公開！" # 記事のタイ�
 emoji: "🔧" # 1文字
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["git", "ignore", "config"] # ["markdown", "go", "WSL2"]のように５つまで，go と golang は同じ
-published: false # falseで下書き
+published: ture # falseで下書き
 published_at: 2025-02-26 18:00 # 過去・未来の日時
 
 # https://zenn.dev/zenn/articles/zenn-cli-guide
