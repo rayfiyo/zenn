@@ -111,6 +111,7 @@ node_modules/
 # 環境変数や機密情報など
 .env
 .env.*
+.secrets
 *.key
 *.pem
 *.crt
