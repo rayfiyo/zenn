@@ -175,7 +175,7 @@ curl -s https://ohmyposh.dev/install.sh | sudo bash -s
 
 #### sudo ができない場合
 
-```
+```bash:fish
 curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin/
 ```
 
@@ -183,7 +183,7 @@ curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin/
 unzip を使う箇所（テーマのインストール）を省略する．
 まずはシェルスクリプトをDL．
 
-```
+```bash:fish
 curl -O https://ohmyposh.dev/install.sh
 ```
 
@@ -194,7 +194,7 @@ vi などのエディタで，以下の２つを行う．
 
 その後実行権限を与え，実行して，削除．
 
-```
+```bash:fish
 chmod +x install.sh && ./install.sh && rm ./install.sh
 ```
 
@@ -204,15 +204,16 @@ chmod +x install.sh && ./install.sh && rm ./install.sh
 
 自分のテーマを使う．
 
-```
+```bash:fish
 git clone https://github.com/rayfiyo/oh-my-posh.git ~/.config/oh-my-posh
 ```
 
 ## mvt コマンドの実装
 
 `mvt` としてファイルを作る．
+bash じゃないと動かないかも．特に`#!`は分割した方がいいかも．
 
-```bash:bash
+```bash:fish
 echo "#!/bin/bash
 
 if [ ! -e ~/.cache/trash ]; then
@@ -229,13 +230,13 @@ mv -t ~/.cache/trash -f \"\$@\" --suffix \$date
 
 その後実行権限を与える．
 
-```bash:bash
+```bash:fish
 chmod +x mvt
 ```
 
 :::details エディタで書き込む
 
-```bash:bash
+```bash:fish
 touch mvt
 ```
 
@@ -257,7 +258,7 @@ mv -t ~/.cache/trash -f "$@" --suffix $date
 
 その後実行権限を与えるのも忘れずに．
 
-```bash:bash
+```bash:fish
 chmod +x mvt
 ```
 
@@ -265,13 +266,13 @@ chmod +x mvt
 
 #### sudo できる場合
 
-```
-mv mvt /usr/bin/
+```bash:fish
+sudo mv mvt /usr/bin/
 ```
 
 #### sudo できない場合
 
-```
+```bash:fish
 mv mvt ~/.local/bin/
 ```
 
