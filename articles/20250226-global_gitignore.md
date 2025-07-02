@@ -129,7 +129,7 @@ node_modules/
 
 私の ignore ファイルをここに乗せておく。バックアップを兼ねている。
 
-```
+```gitignore
 # macOS
 .DS_Store
 .AppleDouble
