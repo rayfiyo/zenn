@@ -125,6 +125,89 @@ node_modules/
 - https://github.com/github/gitignore
 - https://www.toptal.com/developers/gitignore
 
+## 私の設定
+
+私の ignore ファイルをここに乗せておく。バックアップを兼ねている。
+
+```
+# macOS
+.DS_Store
+.AppleDouble
+.Spotlight-V100
+.Trashes
+
+# Windows
+Thumbs.db
+ehthumbs.db
+Desktop.ini
+
+# WSL
+*Zone.Identifier
+
+# エディタ/IDE
+.vscode/
+
+# ログ・一時ファイルなど
+*.log
+*.tmp
+*.temp
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# ビルド成果物・依存関係など
+/.pnp
+.pnp.js
+node_modules/
+tmp/
+
+# 環境変数や機密情報など
+.env
+.env.*
+.secrets
+*.key
+*.pem
+*.crt
+cookies.*
+
+# 個人的なもの
+!.gitignore
+!.gitkeep
+template.pdf
+cover.pdf
+conf.pdf
+*.secret.*
+*.aup3
+bin/
+
+# - - - Go - - - #
+
+# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# env file
+.env
+```
+
 ---
 
 # 参考文献
