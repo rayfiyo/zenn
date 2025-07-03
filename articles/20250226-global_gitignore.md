@@ -14,6 +14,8 @@ published_at: 2025-02-26 18:00 # 過去・未来の日時
 
 Git 初学者向けに、Git のグローバルな設定の gitignore （`~/.config/git/ignore` ファイル）のおすすめ設定を書いてみる。
 
+[せっかちな方はこちら](#おすすめの設定)
+
 # 背景
 
 身近な人に Git/GitHub を勧めているが、初学者故に設定をしらないことがあるので、秘匿せずに設定ファイルを紹介する。みんなハッピー！！
@@ -130,6 +132,35 @@ node_modules/
 私の ignore ファイルをここに乗せておく。バックアップを兼ねている。
 
 ```gitignore
+# - - - Go - - - #
+
+# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
+
+# Binaries for programs and plugins
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+# Test binary, built with `go test -c`
+*.test
+
+# Output of the go coverage tool, specifically when used with LiteIDE
+*.out
+
+# Dependency directories (remove the comment below to include it)
+# vendor/
+
+# Go workspace file
+go.work
+go.work.sum
+
+# env file
+.env
+
+# - - - その他 - - - #
+
 # macOS
 .DS_Store
 .AppleDouble
@@ -179,33 +210,6 @@ conf.pdf
 *.secret.*
 *.aup3
 bin/
-
-# - - - Go - - - #
-
-# https://github.com/github/gitignore/blob/main/community/Golang/Go.AllowList.gitignore
-
-# Binaries for programs and plugins
-*.exe
-*.exe~
-*.dll
-*.so
-*.dylib
-
-# Test binary, built with `go test -c`
-*.test
-
-# Output of the go coverage tool, specifically when used with LiteIDE
-*.out
-
-# Dependency directories (remove the comment below to include it)
-# vendor/
-
-# Go workspace file
-go.work
-go.work.sum
-
-# env file
-.env
 ```
 
 ---
