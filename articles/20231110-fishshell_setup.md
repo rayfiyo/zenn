@@ -56,6 +56,7 @@ jorgebucaran/fisher
 edc/bass
 0rax/fish-bd
 jethrokuan/z
+jorgebucaran/fish-nvm
 ```
 
 ---
@@ -112,7 +113,7 @@ curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fi
 プラグインをインストールする．
 
 ```bash:fish
-fisher install edc/bass  0rax/fish-bd jethrokuan/z
+fisher install jorgebucaran/fisher edc/bass 0rax/fish-bd jethrokuan/z jorgebucaran/fish-nvm
 ```
 
 :::details 各プラグインの説明
