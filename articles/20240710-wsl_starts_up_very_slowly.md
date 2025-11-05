@@ -55,22 +55,14 @@ DXCore バージョン: 10.0.26091.1-240325-1447.ge-release
 Windows バージョン: 10.0.22631.3810
 ```
 
-また，ディストーションは Arch Linux である．
+また，ディストーションは Arch Linux である．（一部省略）
 
 ```bash
 $ cat /etc/os-release
 NAME="Arch Linux"
 PRETTY_NAME="Arch Linux"
 ID=arch
-BUILD_ID=rolling
 VERSION_ID=20231001.0.182270
-ANSI_COLOR="38;2;23;147;209"
-HOME_URL="https://archlinux.org/"
-DOCUMENTATION_URL="https://wiki.archlinux.org/"
-SUPPORT_URL="https://bbs.archlinux.org/"
-BUG_REPORT_URL="https://bugs.archlinux.org/"
-PRIVACY_POLICY_URL="https://terms.archlinux.org/docs/privacy-policy/"
-LOGO=archlinux-logo
 ```
 
 ---
@@ -102,20 +94,25 @@ safeMode=true
 
 ### 結果
 
-- 起動が非常に速くなった
+- 起動が非常に速くなった（3秒台）
 
 ## 起動ログの取得
 
 起動ログ（the start up logs）は `dmesg` コマンドで取得できる．[\*1](#1)
 このコマンドはWSLに限定せず，Linux でカーネルログを確認するために使用される．
 通常は `grep` や `-l`オプションで影響レベルの絞り込みなど をするが，今回は調査である点と興味がある点を考慮して，全ログをファイルに保存して確認する．
+以降では，セーフモード時と非セーフモード時のログを比較することで原因を突き止める．
 
 （保存は`>`でリダイレクトすれば良い）
+
+:::message
+初版執筆時はまだ ChatGPT が幼かったが、現在は ChatGPT にログを投げるだけでも有益かもしれない
+:::
 
 ### セーフモード
 
 ```bash: bash
-dmesg > safeMode
+dmesg > safe_mode
 ```
 
 実際に確認してみると，`1.261612`秒で起動していた．
@@ -143,7 +140,7 @@ dmesg > safeMode
 ### 通常モード
 
 ```bash: bash
-dmesg > normalMode
+dmesg > normal_mode
 ```
 
 実際に確認してみると，`12.366470`秒で起動していた．
