@@ -113,7 +113,12 @@ curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fi
 プラグインをインストールする．
 
 ```bash:fish
-fisher install jorgebucaran/fisher edc/bass 0rax/fish-bd jethrokuan/z jorgebucaran/fish-nvm
+fisher install \
+edc/bass \
+jethrokuan/z \
+jorgebucaran/fish-nvm \
+jorgebucaran/fisher \
+h-matsuo/fish-color-scheme-switcher
 ```
 
 :::details 各プラグインの説明
@@ -130,14 +135,6 @@ bass source main.bash
 https://github.com/edc/bass
 https://qiita.com/eduidl/items/dc2f29cac7232a9a97d8#2-bass%E3%82%92%E4%BD%BF%E3%81%86
 
-#### 0rax/fish-bd
-
-現在のディレクトリツリー（pwd）の親ディレクトリに戻る．
-`cd ../../..` の短縮（代替）．
-
-https://github.com/0rax/fish-bd
-https://dev.classmethod.jp/articles/fish-shell-life/#toc-fish-bd-
-
 #### jethrokuan/z
 
 履歴から探って直接移動できるすぐれもの．
@@ -145,6 +142,25 @@ https://dev.classmethod.jp/articles/fish-shell-life/#toc-fish-bd-
 
 https://github.com/jethrokuan/z
 https://qiita.com/hennin/items/33758226a0de8c963ddf#jethrokuanz
+
+#### jorgebucaran/fish-nvm
+
+fish で nvm を使うときは一工夫いる．
+
+https://nodejs.org/ja/download
+https://github.com/jorgebucaran/nvm.fish
+https://dev.classmethod.jp/articles/fish-nvm/
+
+#### jorgebucaran/fisher
+
+プラグイン管理だっけ？必要であることは自明．
+
+#### h-matsuo/fish-color-scheme-switcher
+
+`fish_config` でブラウザを開けない（例: SSH先）で fish のカラーテーマを設定する．
+
+https://github.com/h-matsuo/fish-color-scheme-switcher
+https://zenn.dev/kawaxumax/articles/00afb9c0075a0b
 
 :::
 
