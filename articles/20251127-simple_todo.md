@@ -1,5 +1,5 @@
 ---
-title: "初心者向け、シンプルなToDoリストをWebアプリとして作成しよう！" # 記事のタイトル
+title: "超初心者向け、シンプルなToDoリストをWebアプリとして作成しよう！" # 記事のタイトル
 emoji: "🔰" # 1文字
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["HTML", "CSS", "JS", "ToDo", "入門"] # ["markdown", "go", "WSL2"]のように５つまで，go と golang は同じ
@@ -12,10 +12,11 @@ published_at: 2025-11-27 20:00 # 過去・未来の日時
 
 # 概要
 
-- 初心者向けにシンプルなToDoアプリの作り方を紹介した
+- 超初心者向けにシンプルなToDoアプリの作り方を紹介した
   - HTML, CSS, JS(JavaScript) のみを使ったシンプルなWebアプリ
   - 最短30〜60分で、動くToDoアプリを完成できる
 - 必須パート（ここまでで完成）と発展パート（時間や実力に応じてチャレンジ）に分けた
+- より上のレベルを求める方向けに、別の記事の URL を乗せた
 
 ## 背景
 
@@ -54,11 +55,6 @@ published_at: 2025-11-27 20:00 # 過去・未来の日時
 3. index.html をブラウザで開く（おそらくダブルクリックでOK）
 4. ブラウザで真っ白なページができる
 
-:::details Windows の場合の画像例
-![](../images/20251127-simple_todo/01_mkdir_todo-app.png)
-![](../images/20251127-simple_todo/02_touch.png.png)
-:::
-
 # HTMLで土台を作る
 
 ## ゴール
@@ -66,6 +62,8 @@ published_at: 2025-11-27 20:00 # 過去・未来の日時
 - 画面に「タイトル・入力欄・追加ボタン・空のリスト」が見える
 
 ## サンプルコード
+
+次を `index.html` に保存して下さい。
 
 ```html
 <!DOCTYPE html>
@@ -92,8 +90,18 @@ published_at: 2025-11-27 20:00 # 過去・未来の日時
 
 ## 簡単な説明
 
+`<!DOCTYPE html>` のような `<` と `>` を使っている文字列を HTML タグといいます。<br>
+`<!DOCTYPE html>` 自体はこれは HTML ですよということを明示しています。<br>
+
+詳しく HTML について学びたい場合は次の MDN の記事を参考にするといいでしょう。
+
+https://developer.mozilla.org/ja/docs/Learn_web_development/Core/Structuring_content/Basic_HTML_syntax
+
+MDN というのは、Web 技術（HTML/CSS/JavaScript など）を学ぶための公式かつ信頼度の高いドキュメント集です。
+（厳密に補足をしておくと、ここでの公式とは、Firefox というブラウザを作っている Mozilla が主体のドキュメントであるという意味です）
+
 - `<h1>`: タイトル
-- `<input>`: 入力欄。id="todo-input" が後でJSから使う「名前」
+- `<input>`: 入力欄。`id="todo-input"` は後でJSから使う「名前」
 - `<button>`: ボタン
 - `<ul>`: 箇条書きリスト。ここにToDoが増えていく
 - `<script src="main.js">`: 最後に書く。JSファイルを読みこむ
