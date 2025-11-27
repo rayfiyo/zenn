@@ -55,8 +55,8 @@ published_at: 2025-11-27 20:00 # 過去・未来の日時
 4. ブラウザで真っ白なページができる
 
 :::details Windows の場合の画像例
-![](../images/20251127-Simple_ToDo/01_mkdir_todo-app.png)
-![](../images/20251127-Simple_ToDo/02_touch.png.png)
+![](../images/20251127-simple_todo/01_mkdir_todo-app.png)
+![](../images/20251127-simple_todo/02_touch.png.png)
 :::
 
 # HTMLで土台を作る
