@@ -3,7 +3,7 @@ title: "超初心者向け、シンプルなToDoリストをWebアプリとし�
 emoji: "🔰" # 1文字
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["HTML", "CSS", "JS", "ToDo", "入門"] # ["markdown", "go", "WSL2"]のように５つまで，go と golang は同じ
-published: false # falseで下書き
+published: true # falseで下書き
 published_at: 2025-11-27 20:00 # 過去・未来の日時
 
 # https://zenn.dev/zenn/articles/zenn-cli-guide
