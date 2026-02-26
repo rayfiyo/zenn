@@ -79,6 +79,7 @@ touch ~/.config/git/ignore
 
 次をおすすめの紹介として紹介する。
 `#`以降は行コメントになるのでコピペで全てを記載しても構わない。
+`!.env.example` は `.env.example` ファイルを明示的に追跡するという意味であることに注意。
 
 ```gitignore
 # macOS
@@ -118,6 +119,7 @@ tmp/
 
 # 環境変数や機密情報など
 .env
+!.env.example
 *.secret
 *.key
 *.pem
@@ -180,6 +182,7 @@ tmp/
 
 # 環境変数や機密情報など
 .env
+!.env.example
 *.secret
 *.key
 *.pem
