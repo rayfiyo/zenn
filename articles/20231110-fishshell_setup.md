@@ -311,6 +311,14 @@ GPG key は後で．
  rm -rf ~/.config/fish/ && git clone git@github.com:rayfiyo/fish-config.git ~/.config/fish
 ```
 
+## `~/.local/` の生成
+
+```
+  mkdir -p ~/.local/src
+  git clone git@github.com:rayfiyo/complete-notifier.git ~/.local/src/complete-notifier/
+  git clone git@github.com:rayfiyo/git-subcommands.git ~/.local/src/git-subcommands/
+```
+
 ---
 
 # 付録
