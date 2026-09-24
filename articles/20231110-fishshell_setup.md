@@ -104,7 +104,7 @@ fish のプラグイン管理ツール．
 
 公式の GitHub を参照すると次のコマンドが書いてある． [\*2](#2)
 
-```bash:fish
+```fish
 curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
 ```
 
@@ -112,7 +112,7 @@ curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fi
 
 プラグインをインストールする．
 
-```bash:fish
+```fish
 fisher install \
 edc/bass \
 jethrokuan/z \
@@ -128,7 +128,7 @@ h-matsuo/fish-color-scheme-switcher
 fish で bash スクリプトを `source` する．
 利用例 は次．
 
-```bash:fish
+```fish
 bass source main.bash
 ```
 
@@ -164,38 +164,37 @@ https://zenn.dev/kawaxumax/articles/00afb9c0075a0b
 
 :::
 
-## バイナリ置き場を作る
-
-```bash:fish
-mkdir ~/.local/bin
-```
-
-その後，`~/.config/fish/config.fish` などに，
-
-```fish:fish
-fish_add_path $HOME/.local/bin
-```
-
-を記述する．
-
 ## oh-my-posh
 
 最新のベストプラクティスは別にありそうだが，設定ファイルを引き継げるのでまだ現役．
 
 ### インストール
 
-```bash:fish
-curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin/
+インストールする。
+
+```fish
+curl -s https://ohmyposh.dev/install.sh | bash -s
 ```
-`
-ユーザー直下に置くため sudo は不要。
-また、警告が表示される通り、 `~/.local/bin/` の **パスを通す必要** がある。
+
+その後、`/usr/bin/` に移動する。
+
+```fish
+sudo mv ~/.local/bin/oh-my-posh /usr/bin/
+```
+
+:::details sudo できない場合（ユーザ直下のバイナリ置き場）
+`~/.config/fish/config.fish` などに，次を記述する
+
+```fish:fish
+fish_add_path $HOME/.local/bin
+```
+:::
 
 :::details unzipがない場合
 unzip を使う箇所（テーマのインストール）を省略する．
 まずはシェルスクリプトをDL．
 
-```bash:fish
+```fish
 curl -O https://ohmyposh.dev/install.sh
 ```
 
@@ -206,7 +205,7 @@ vi などのエディタで，以下の２つを行う．
 
 その後実行権限を与え，実行して，削除．
 
-```bash:fish
+```fish
 chmod +x install.sh && ./install.sh && rm ./install.sh
 ```
 
@@ -216,7 +215,7 @@ chmod +x install.sh && ./install.sh && rm ./install.sh
 
 自分のテーマを使う．
 
-```bash:fish
+```fish
 git clone https://github.com/rayfiyo/oh-my-posh.git ~/.config/oh-my-posh
 ```
 
@@ -225,7 +224,7 @@ git clone https://github.com/rayfiyo/oh-my-posh.git ~/.config/oh-my-posh
 `mvt` としてファイルを作る．
 bash じゃないと動かないかも．特に`#!`は分割した方がいいかも．
 
-```bash:fish
+```fish
 echo "#!/bin/bash
 
 if [ ! -e ~/.cache/trash ]; then
@@ -240,15 +239,8 @@ mv -t ~/.cache/trash -f \"\$@\" --suffix \$date
 " > mvt
 ```
 
-その後実行権限を与える．
-
-```bash:fish
-chmod +x mvt
-```
-
 :::details エディタで書き込む
-
-```bash:fish
+```fish
 touch mvt
 ```
 
@@ -267,25 +259,24 @@ fi
 date=`date +%y%m%d-%R:%S`
 mv -t ~/.cache/trash -f "$@" --suffix $date
 ```
+:::
 
-その後実行権限を与えるのも忘れずに．
+その後実行権限を与える．
 
-```bash:fish
+```fish
 chmod +x mvt
 ```
 
-:::
-
 #### sudo できる場合
 
-```bash:fish
+```fish
 sudo mv mvt /usr/bin/
 ```
 
 #### sudo できない場合
 
-```bash:fish
-mv mvt ~/.local/bin/
+```fish
+mkdir -p ~/.local/bin/ && mv mvt ~/.local/bin/
 ```
 
 ## fish の設定ファイルを適用
@@ -322,7 +313,7 @@ GPG key は後で．
 
 fish はインストール済みだとする
 
-```bash:fish
+```fish
 curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
 
 fisher install edc/bass jethrokuan/fzf 0rax/fish-bd jethrokuan/z
@@ -338,7 +329,7 @@ ssh-agent.service
 
 ## neovimインストール
 
-```bash:fish
+```fish
 curl -L https://github.com/neovim/neovim/releases/download/stable/nvim.appimage 0-o nvim
 chmod u+x nvim
 ```
@@ -371,7 +362,7 @@ https://github.com/libfuse/libfuse?tab=readme-ov-file#installation
 
 - `--appimage-extract` オプションを付ける
 
-```bash:fish
+```fish
 ./nvim --appimage-extract
 ```
 
@@ -381,7 +372,7 @@ https://github.com/libfuse/libfuse?tab=readme-ov-file#installation
 
 #### sudo ができる
 
-```bash:fish
+```fish
 sudo mv ./nvim /usr/bin/nvim
 ```
 
@@ -389,13 +380,13 @@ sudo mv ./nvim /usr/bin/nvim
 
 [バイナリ置き場を作る](#バイナリ置き場を作る) を行う．
 
-```bash:fish
+```fish
 mv ./nvim ~/.ubin/
 ```
 
 ### 設定ファイル
 
-```bash:fish
+```fish
 git clone https://github.com/rayfiyo/nvim-configs.git ~/.config/nvim
 ```
 
