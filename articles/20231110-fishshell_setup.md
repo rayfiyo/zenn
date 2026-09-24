@@ -184,17 +184,12 @@ fish_add_path $HOME/.local/bin
 
 ### インストール
 
-#### sudo ができる場合
-
-```bash:fish
-curl -s https://ohmyposh.dev/install.sh | sudo bash -s
-```
-
-#### sudo ができない場合
-
 ```bash:fish
 curl -s https://ohmyposh.dev/install.sh | bash -s -- -d ~/.local/bin/
 ```
+`
+ユーザー直下に置くため sudo は不要。
+また、警告が表示される通り、 `~/.local/bin/` の **パスを通す必要** がある。
 
 :::details unzipがない場合
 unzip を使う箇所（テーマのインストール）を省略する．
