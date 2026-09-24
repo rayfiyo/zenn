@@ -160,10 +160,10 @@ https://zenn.dev/kawaxumax/articles/00afb9c0075a0b
 curl -s https://ohmyposh.dev/install.sh | bash -s
 ```
 
-`~/.local/bin/` はパスが通っていないので、
-`~/.config/fish/config.fish` などに，次を記述する必要がある。
+`~/.local/bin/` はパスを通す必要がある。
+方法はいくつかあるが、可能ならば次がベスト。
 
-```fish:fish
+```fish
 fish_add_path $HOME/.local/bin
 ```
 
