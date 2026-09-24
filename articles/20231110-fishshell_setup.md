@@ -1,5 +1,5 @@
 ---
-title: "fishshellの汎用的なセットアップメモ" # 記事のタイトル
+title: "fishshell と周辺の汎用的なセットアップメモ" # 記事のタイトル
 emoji: "🐟" # 1文字
 type: "tech" # tech: 技術記事 / idea: アイデア記事
 topics: ["fish", "shell", "fishshell", "setup"] # ["markdown", "rust", "aws"]のように５つまで
@@ -43,8 +43,6 @@ $ fish -v
 fish, version 3.7.1
 ```
 
-:
-
 ```fish:terminal
 $ fisher -v
 fisher, version 4.4.4
@@ -65,14 +63,12 @@ jorgebucaran/fish-nvm
 
 ## fish
 
-### インストール
-
-OSによって大きく異なるので公式を参照． [\*1](#1)
+OSによってインストール方法は大きく異なるので公式を参照する． [\*1](#1)
 https://fishshell.com
 
 :::details arch linux の例
 
-```
+```bash:bash
 sudo pacman -S fish
 ```
 
@@ -82,47 +78,39 @@ sudo pacman -S fish
 fish のインストールは管理者権限がないと辛い．
 管理者権限なしの自力でビルドなら，`cmake` が事実上必須．
 `cmake` もビルドするなら，`gcc` と `build-essential` は必須．
-（`cmake` もビルドする道は挫折したのでこれより先はわからない）．
+（`cmake` も sudo なしでビルドする道は挫折したのでこれより先はわからない）．
 :::
 
-### デフォルトシェルの設定
-
-デフォルトシェルを fish にする．
+インストールできたら、デフォルトシェルを fish にする．
 OSや環境によっては，POSIX非互換がネックになるので実行前に要調査．
 
 ```bash:bash
 chsh -s $(which fish)
 ```
 
-以降は `bash` ではなく fish で実行する．
+以降は明示のない限り bash ではなく fish で実行する．
 
 ## fisher
 
 fish のプラグイン管理ツール．
-
-### インストール
-
-公式の GitHub を参照すると次のコマンドが書いてある． [\*2](#2)
+インストール方法として、GitHub に次のコマンドが書いてある． [\*2](#2)
 
 ```fish
 curl -sL https://raw.githubusercontent.com/jorgebucaran/fisher/main/functions/fisher.fish | source && fisher install jorgebucaran/fisher
 ```
 
-### 設定
-
-プラグインをインストールする．
+fisher がインストールできたら、これを使ってプラグインをインストールする．
 
 ```fish
 fisher install \
-edc/bass \
-jethrokuan/z \
-jorgebucaran/fish-nvm \
-jorgebucaran/fisher \
-h-matsuo/fish-color-scheme-switcher
+  edc/bass \
+  jethrokuan/z \
+  jorgebucaran/fish-nvm \
+  jorgebucaran/fisher \
+  h-matsuo/fish-color-scheme-switcher
 ```
 
 :::details 各プラグインの説明
-
 #### edc/bass
 
 fish で bash スクリプトを `source` する．
@@ -161,34 +149,23 @@ https://dev.classmethod.jp/articles/fish-nvm/
 
 https://github.com/h-matsuo/fish-color-scheme-switcher
 https://zenn.dev/kawaxumax/articles/00afb9c0075a0b
-
 :::
 
 ## oh-my-posh
 
 最新のベストプラクティスは別にありそうだが，設定ファイルを引き継げるのでまだ現役．
-
-### インストール
-
-インストールする。
+次のコマンドでインストールできる。
 
 ```fish
 curl -s https://ohmyposh.dev/install.sh | bash -s
 ```
 
-その後、`/usr/bin/` に移動する。
-
-```fish
-sudo mv ~/.local/bin/oh-my-posh /usr/bin/
-```
-
-:::details sudo できない場合（ユーザ直下のバイナリ置き場）
-`~/.config/fish/config.fish` などに，次を記述する
+`~/.local/bin/` はパスが通っていないので、
+`~/.config/fish/config.fish` などに，次を記述する必要がある。
 
 ```fish:fish
 fish_add_path $HOME/.local/bin
 ```
-:::
 
 :::details unzipがない場合
 unzip を使う箇所（テーマのインストール）を省略する．
@@ -208,12 +185,18 @@ vi などのエディタで，以下の２つを行う．
 ```fish
 chmod +x install.sh && ./install.sh && rm ./install.sh
 ```
-
 :::
 
-### 設定
+---
 
-自分のテーマを使う．
+# 設定（dotfiles）
+
+以下は dotfiles で管理する運用に変更したため、不要。
+
+## oh-my-posh のテーマ
+
+oh-my-posh がインストールできたら、テーマを設定する。
+私のものを使う場合は以下で良い。
 
 ```fish
 git clone https://github.com/rayfiyo/oh-my-posh.git ~/.config/oh-my-posh
@@ -225,7 +208,7 @@ git clone https://github.com/rayfiyo/oh-my-posh.git ~/.config/oh-my-posh
 bash じゃないと動かないかも．特に`#!`は分割した方がいいかも．
 
 ```fish
-echo "#!/bin/bash
+mkdir -p ~/.local/bin/ && echo "#!/bin/bash
 
 if [ ! -e ~/.cache/trash ]; then
     mkdir ~/.cache/trash
@@ -236,17 +219,17 @@ if expr \"$1\" : \"^-\" >/dev/null 2>&1; then
 fi
 date=`date +%y%m%d-%R:%S`
 mv -t ~/.cache/trash -f \"\$@\" --suffix \$date
-" > mvt
+" > ~/.local/bin/mvt
 ```
 
 :::details エディタで書き込む
 ```fish
-touch mvt
+mkdir -p ~/.local/bin/ && touch ~/.local/bin/mvt
 ```
 
 mvt の中身は次．
 
-```bash:mvt
+```bash:~/.local/bin/mvt
 #!/bin/bash
 
 if [ ! -e ~/.cache/trash ]; then
@@ -264,19 +247,7 @@ mv -t ~/.cache/trash -f "$@" --suffix $date
 その後実行権限を与える．
 
 ```fish
-chmod +x mvt
-```
-
-#### sudo できる場合
-
-```fish
-sudo mv mvt /usr/bin/
-```
-
-#### sudo できない場合
-
-```fish
-mkdir -p ~/.local/bin/ && mv mvt ~/.local/bin/
+chmod +x ~/.local/bin/mvt
 ```
 
 ## fish の設定ファイルを適用
