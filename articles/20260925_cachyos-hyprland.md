@@ -221,6 +221,11 @@ chezmoi init --ssh rayfiyo
    - デフォルトなので、空で Enter
 3. 残りは表示を読んで従う
 
+:::warning
+メールアドレスは `git config --global user.email`
+と同じものを指定しないと、未認証 (`Unverified`) になります。
+:::
+
 ```fish
 shelly install standard gnupg
 gpg --full-generate-key
@@ -229,7 +234,7 @@ gpg --full-generate-key
 鍵が生成できたら、公開鍵のエクスポートをクリップボードへ行った。
 
 ```
-gpg --armor --export $(gpg --list-secret-keys --keyid-format=long | grep -A1 "sec" | tail -n1) | wl-copy
+gpg --armor --export $(gpg --list-secret-keys --keyid-format=long | grep -A1 "sec" | tail -n1 | awk '{print $1}') | wl-copy
 ```
 
 :::details 鍵が複数ある場合など、手動で行う場合。
@@ -260,7 +265,7 @@ gpg --armor --export XXXXXXXXXXXXXXXX
 
 ```fish
 # キーIDを設定
-git config --global user.signingkey $(gpg --list-secret-keys --keyid-format=long | grep -A1 "sec" | tail -n1)
+git config --global user.signingkey  $(gpg --list-secret-keys --keyid-format=long | grep -A1 "sec" | tail -n1 | awk '{print $1}')
 
 # 自動的にすべてのコミットに署名をつける設定
 git config --global commit.gpgsign true
