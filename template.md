@@ -18,15 +18,7 @@ published: false # falseで下書き
 
 ## 環境
 
-今回の環境は次である．
-
-```fish:terminal
-$ wsl.exe --version
-```
-
-また，ディストーションは Arch Linux である．
-
-```fish:terminal
+```fish
 $ cat /etc/os-release
 ```
 
